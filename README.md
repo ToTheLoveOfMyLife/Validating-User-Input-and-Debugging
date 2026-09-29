@@ -2,9 +2,9 @@
 
 ![CI](https://github.com/timwmcqueen/SignalWatch/actions/workflows/ci.yml/badge.svg)
 
-A production-style **endpoint health and incident monitoring service** built with TypeScript, Fastify, PostgreSQL support, automated polling, tests, and CI.
+SignalWatch is a service I built to check websites and APIs on a schedule, record how they respond, and turn repeated failures into incidents.
 
-This project replaces an introductory input-validation exercise with a system that demonstrates asynchronous service checks, repository abstraction, incident rules, persistence, API validation, and background scheduling.
+I built it because monitoring is a real part of keeping systems running, and I wanted a project that went beyond normal CRUD work. It checks endpoints in the background, saves the results, and closes an incident when the service recovers.
 
 ## What it does
 
