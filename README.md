@@ -1,6 +1,6 @@
 # SignalWatch
 
-![CI](https://github.com/ToTheLoveOfMyLife/Validating-User-Input-and-Debugging/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/timwmcqueen/SignalWatch/actions/workflows/ci.yml/badge.svg)
 
 A production-style **endpoint health and incident monitoring service** built with TypeScript, Fastify, PostgreSQL support, automated polling, tests, and CI.
 
