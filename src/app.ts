@@ -6,10 +6,10 @@ import { MonitoringService } from "./service.js";
 
 const createMonitorSchema = z.object({
   name: z.string().trim().min(2).max(100),
-  url: z.url().refine((value) => {
-    const protocol = new URL(value).protocol;
-    return protocol === "http:" || protocol === "https:";
-  }, "Only HTTP and HTTPS URLs are supported"),
+  url: z.string().url().refine(
+    (value) => value.startsWith("http://") || value.startsWith("https://"),
+    "Only HTTP and HTTPS URLs are supported",
+  ),
   intervalSeconds: z.number().int().min(15).max(3600),
 });
 
