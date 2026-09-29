@@ -1,5 +1,7 @@
 # SignalWatch
 
+![CI](https://github.com/ToTheLoveOfMyLife/Validating-User-Input-and-Debugging/actions/workflows/ci.yml/badge.svg)
+
 A production-style **endpoint health and incident monitoring service** built with TypeScript, Fastify, PostgreSQL support, automated polling, tests, and CI.
 
 This project replaces an introductory input-validation exercise with a system that demonstrates asynchronous service checks, repository abstraction, incident rules, persistence, API validation, and background scheduling.
@@ -100,6 +102,8 @@ docker run -p 3000:3000 signalwatch
 ```
 
 ## Architecture
+
+See [docs/architecture.md](docs/architecture.md) for the component flow and persistence boundaries.
 
 The code separates four concerns:
 
