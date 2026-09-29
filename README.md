@@ -2,13 +2,9 @@
 
 ![CI](https://github.com/timwmcqueen/SignalWatch/actions/workflows/ci.yml/badge.svg)
 
-SignalWatch is a service I built to check websites and APIs on a schedule, record how they respond, and turn repeated failures into incidents.
+SignalWatch checks websites and APIs on a schedule, records their response status and latency, and opens an incident after repeated failures.
 
-I built it because monitoring is a real part of keeping systems running, and I wanted a project that went beyond normal CRUD work. It checks endpoints in the background, saves the results, and closes an incident when the service recovers.
-
-## What it does
-
-SignalWatch stores HTTP/HTTPS monitors, polls them on a schedule, records status/latency history, and opens an incident after two consecutive failures. When the endpoint recovers, the open incident is automatically resolved.
+When a failed service starts responding normally again, the open incident is automatically resolved.
 
 ## Stack
 
@@ -17,7 +13,7 @@ SignalWatch stores HTTP/HTTPS monitors, polls them on a schedule, records status
 - Fastify
 - Zod
 - PostgreSQL via `pg`
-- In-memory repository for local/demo/test usage
+- In-memory repository for local/test use
 - Vitest
 - Docker
 - GitHub Actions
@@ -25,17 +21,16 @@ SignalWatch stores HTTP/HTTPS monitors, polls them on a schedule, records status
 ## Features
 
 - Create endpoint monitors
-- Configurable check intervals
-- HTTP status and latency collection
+- Configure check intervals
+- Record HTTP status and latency
 - Request timeouts with `AbortController`
-- Concurrent scheduler execution with `Promise.allSettled`
-- Check history per monitor
-- Incident creation after repeated failures
-- Automatic incident resolution on recovery
-- PostgreSQL persistence when `DATABASE_URL` is configured
-- In-memory mode when no database is configured
-- API validation and 404 handling
-- Automated tests and production TypeScript builds in CI
+- Run due checks concurrently
+- Store recent check history
+- Open an incident after two consecutive failures
+- Resolve incidents after recovery
+- PostgreSQL persistence when `DATABASE_URL` is set
+- In-memory storage when no database is configured
+- Request validation and 404 handling
 
 ## API examples
 
@@ -52,13 +47,13 @@ Content-Type: application/json
 }
 ```
 
-Trigger a check immediately:
+Run a check immediately:
 
 ```http
 POST /api/monitors/{id}/check
 ```
 
-Read recent observations:
+Read recent checks:
 
 ```http
 GET /api/monitors/{id}/history
@@ -77,7 +72,7 @@ npm install
 npm run dev
 ```
 
-Without `DATABASE_URL`, SignalWatch uses its in-memory repository.
+Without `DATABASE_URL`, SignalWatch uses the in-memory repository.
 
 To use PostgreSQL:
 
@@ -85,7 +80,7 @@ To use PostgreSQL:
 DATABASE_URL=postgresql://user:password@localhost:5432/signalwatch npm start
 ```
 
-The service initializes the required tables and indexes at startup.
+The required tables and indexes are created when the service starts.
 
 ## Test and build
 
@@ -103,17 +98,11 @@ docker run -p 3000:3000 signalwatch
 
 ## Architecture
 
-See [docs/architecture.md](docs/architecture.md) for the component flow and persistence boundaries.
+See [docs/architecture.md](docs/architecture.md).
 
-The code separates four concerns:
+SignalWatch is split into four main parts:
 
-1. **HTTP API** — Fastify routes and Zod validation.
-2. **Monitoring service** — incident rules and check orchestration.
-3. **Endpoint checker** — network timing, timeout, and response classification.
-4. **Repository** — interchangeable in-memory and PostgreSQL implementations.
-
-That separation makes business logic testable without a real network endpoint or database.
-
-## Portfolio history
-
-The original Java paint/input-validation coursework is preserved under `legacy/Paint1.java` to document progression from introductory programming into service engineering.
+1. **Fastify API** — monitor, history, and incident endpoints
+2. **Monitoring service** — check orchestration and incident rules
+3. **Endpoint checker** — HTTP request timing, timeout, and health classification
+4. **Repository** — in-memory and PostgreSQL storage implementations
